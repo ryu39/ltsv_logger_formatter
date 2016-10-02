@@ -1,9 +1,8 @@
 require 'logger'
 require 'ltsv'
+require 'ltsv_logger_formatter/version'
 
 class LtsvLoggerFormatter < ::Logger::Formatter
-  VERSION = '0.1.0'
-
   attr_accessor :severity_key, :time_key, :progname_key
 
   # Initialize formatter.
