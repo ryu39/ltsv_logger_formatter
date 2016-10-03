@@ -35,7 +35,7 @@ class LtsvLoggerFormatter < ::Logger::Formatter
       log_data.merge!( @progname_key => progname )
     end
     log_data.merge!(format_data(data))
-    ::LTSV.dump(log_data)
+    ::LTSV.dump(log_data) + "\n"
   end
 
   private
