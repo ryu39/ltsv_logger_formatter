@@ -27,12 +27,15 @@ class LtsvLoggerFormatter < ::Logger::Formatter
   # @param [String] severity
   # @param [Time] time
   # @param [String] progname
-  # @param [Hash, String, Exception, Object] data Data for logging,
+  # @param [Hash, Exception, Object] data Data for logging,
+  #   If data is Exception, then #message, #class and #backtrace is logged,
+  #   or else if data can be respond to #to_hash, then #to_hash result is logged,
+  #   or else #to_s result is logged with :message key.
   #   Hash, String, Exception or Object respond_to :to_hash can be used.
   def call(severity, time, progname, data)
     log_data = { @severity_key => severity, @time_key => format_datetime(time) }
     if progname
-      log_data.merge!( @progname_key => progname )
+      log_data.merge!(@progname_key => progname)
     end
     log_data.merge!(format_data(data))
     ::LTSV.dump(log_data) + "\n"
@@ -41,15 +44,9 @@ class LtsvLoggerFormatter < ::Logger::Formatter
   private
 
   def format_data(data)
-    case data
-    when Hash
-      data
-    when String
-      { message: data }
-    when Exception
-      { message: data.message, class: data.class, backtrace: (data.backtrace || []).join("\\n") } # \n cannot be used in LTSV, so use \\n in backtrace.
-    else
-      data.to_hash
+    if data.is_a? Exception
+      return { message: data.message, class: data.class, backtrace: (data.backtrace || []).join("\\n") } # \n cannot be used in LTSV, so use \\n in backtrace.
     end
+    data.respond_to?(:to_hash) ? data.to_hash : { message: data.to_s }
   end
 end

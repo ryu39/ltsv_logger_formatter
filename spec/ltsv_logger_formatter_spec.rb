@@ -60,34 +60,54 @@ describe LtsvLoggerFormatter do
       end
     end
 
-    context 'when data is String' do
-      let(:data) { 'string' }
-
-      it 'returns log message in ltsv format which contains String as message' do
-        should eq "level:INFO\ttime:2000-01-01T12:34:56.000000\tmessage:string\n"
-      end
-    end
-
-    context 'when data is Exception' do
-      let(:data) do
-        begin
-          raise RuntimeError.new('error')
-        rescue => e
-          e
+    describe 'data type except for Hash' do
+      shared_examples_for 'default behaviour' do
+        it 'returns log message in ltsv format which contains data#to_s as message' do
+          should eq "level:INFO\ttime:2000-01-01T12:34:56.000000\tmessage:#{data.to_s}\n"
         end
       end
 
-      it 'returns log message in ltsv format which contains message, class and backtrace' do
-        should eq "level:INFO\ttime:2000-01-01T12:34:56.000000\tmessage:error\tclass:RuntimeError\tbacktrace:#{data.backtrace.join("\\n")}\n"
+      context 'when data is String' do
+        let(:data) { 'string' }
+        it_behaves_like 'default behaviour'
       end
-    end
 
-    context 'when data is Object witch can respond to #to_hash' do
-      let(:data) { double('object') }
-      before { expect(data).to receive(:to_hash).and_return({ key: 'val' }) }
+      context 'when data is Integer' do
+        let(:data) { 100 }
+        it_behaves_like 'default behaviour'
+      end
 
-      it 'returns log message in ltsv format which contains Object#to_hash result' do
-        should eq "level:INFO\ttime:2000-01-01T12:34:56.000000\tkey:val\n"
+      context 'when data is boolean' do
+        let(:data) { true }
+        it_behaves_like 'default behaviour'
+      end
+
+      context 'when data is nil' do
+        let(:data) { nil }
+        it_behaves_like 'default behaviour'
+      end
+
+      context 'when data is Exception' do
+        let(:data) do
+          begin
+            raise RuntimeError.new('error')
+          rescue => e
+            e
+          end
+        end
+
+        it 'returns log message in ltsv format which contains message, class and backtrace' do
+          should eq "level:INFO\ttime:2000-01-01T12:34:56.000000\tmessage:error\tclass:RuntimeError\tbacktrace:#{data.backtrace.join("\\n")}\n"
+        end
+      end
+
+      context 'when data is Object witch can respond to #to_hash' do
+        let(:data) { double('object') }
+        before { expect(data).to receive(:to_hash).and_return({ key: 'val' }) }
+
+        it 'returns log message in ltsv format which contains Object#to_hash result' do
+          should eq "level:INFO\ttime:2000-01-01T12:34:56.000000\tkey:val\n"
+        end
       end
     end
   end

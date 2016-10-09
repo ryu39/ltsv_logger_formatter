@@ -34,12 +34,10 @@ logger.info('progname') { { key: 'val' } }
 # => level:INFO      time:2016-10-03T00:27:44.269682 progname:progname       key:val
 ```
 
-You can pass String, Exception and Object that can respond to #to_hash.
+You can pass Exception, Object that can respond to #to_hash.
+If the Object cannot respond to #hash, then #to_s result is used with :message key.
 
 ```ruby
-logger.info 'string'
-# => level:INFO      time:2016-10-03T00:37:39.950529 message:string
-
 begin
   raise RuntimeError.new('error')
 rescue => e
@@ -53,6 +51,13 @@ def object.to_hash
 end
 logger.info object
 # => level:INFO      time:2016-10-03T00:43:52.458565 key:val
+
+logger.info 'string'
+# => level:INFO      time:2016-10-03T00:37:39.950529 message:string
+logger.info 100
+# => level:INFO      time:2016-10-03T00:37:39.950529 message:100
+logger.info nil
+# => level:INFO      time:2016-10-03T00:37:39.950529 message:
 ```
 
 ### Datetime Format ###
