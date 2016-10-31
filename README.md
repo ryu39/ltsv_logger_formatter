@@ -85,6 +85,19 @@ logger.info('progname') { { key: 'val' } }
 # => test1:INFO      test2:2016-10-03T00:45:52.073456        test3:progname  key:val
 ```
 
+### Filtering parameters ###
+
+You can filter parameters using `filter` option.
+
+```ruby
+require 'action_dispatch/http/parameter_filter'
+filter = ActionDispatch::Http::ParameterFilter.new([/password/])
+
+logger.formatter = LtsvLoggerFormatter.new(filter: filter)
+logger.info(key: 'value', password: 'password')
+# => level:INFO      time:2016-11-01T01:19:51.754113 key:value       password:[FILTERED]
+```
+
 ## Dependency
 
 This gem uses [LTSV gem](https://github.com/condor/ltsv/blob/master/ltsv.gemspec).
