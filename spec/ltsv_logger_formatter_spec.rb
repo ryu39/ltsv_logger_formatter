@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'action_dispatch/http/parameter_filter'
 
 describe LtsvLoggerFormatter do
   it 'has a version number' do
@@ -57,6 +58,18 @@ describe LtsvLoggerFormatter do
         it 'returns log message in ltsv format with specified progname key' do
           should eq "level:INFO\ttime:2000-01-01T12:34:56.000000\ttest:progname\tkey1:str\tkey2:1\tkey3:true\tkey4:[1, 2]\tkey5:{:key=>\"val\"}\n"
         end
+      end
+    end
+
+    context 'with filter' do
+      let(:filter) { ActionDispatch::Http::ParameterFilter.new([/password/]) }
+      let(:formatter) { LtsvLoggerFormatter.new(filter: filter) }
+      let(:data) do
+        { key: 'val', password: 'password' }
+      end
+
+      it 'filters parameters which key matches specified pattern' do
+        should eq "level:INFO\ttime:2000-01-01T12:34:56.000000\tkey:val\tpassword:[FILTERED]\n"
       end
     end
 
