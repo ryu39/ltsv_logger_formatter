@@ -39,7 +39,7 @@ class LtsvLoggerFormatter < ::Logger::Formatter
   def call(severity, time, progname, data)
     log_data = { @severity_key => severity, @time_key => format_datetime(time) }
     if progname
-      log_data.merge!(@progname_key => progname)
+      log_data[@progname_key] = progname
     end
     log_data.merge!(format_data(data))
     ::LTSV.dump(log_data) + "\n"
