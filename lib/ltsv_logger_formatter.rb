@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'logger'
 require 'ltsv'
 require 'ltsv_logger_formatter/version'
