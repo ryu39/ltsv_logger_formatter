@@ -1,8 +1,16 @@
 # frozen_string_literal: true
+
 require 'logger'
 require 'ltsv'
 require 'ltsv_logger_formatter/version'
 
+# A logger formatter for logging in ltsv format.
+#
+# This is a sub class of ::Logger::Formatter.
+# So you can use ::Logger's formatter as follows.
+#   logger = ::Logger.new(STDOUT)
+#   logger.formatter = ::LtsvLoggerFormatter.new
+#   logger.info(key: 'value') # => level:INFO time:2017-03-19T01:47:50.280705 key:value
 class LtsvLoggerFormatter < ::Logger::Formatter
   attr_accessor :severity_key, :time_key, :progname_key
 
@@ -39,7 +47,7 @@ class LtsvLoggerFormatter < ::Logger::Formatter
   def call(severity, time, progname, data)
     log_data = { @severity_key => severity, @time_key => format_datetime(time) }
     if progname
-      log_data.merge!(@progname_key => progname)
+      log_data[@progname_key] = progname
     end
     log_data.merge!(format_data(data))
     ::LTSV.dump(log_data) + "\n"
@@ -48,7 +56,9 @@ class LtsvLoggerFormatter < ::Logger::Formatter
   private
 
   def format_data(data)
-    return { message: data.message, class: data.class, backtrace: Array(data.backtrace).join("\\n") } if data.is_a? Exception
+    if data.is_a? Exception
+      return { message: data.message, class: data.class, backtrace: Array(data.backtrace).join('\n') }
+    end
     return { message: data.to_s } unless data.respond_to?(:to_hash)
 
     @filter ? @filter.filter(data.to_hash) : data.to_hash

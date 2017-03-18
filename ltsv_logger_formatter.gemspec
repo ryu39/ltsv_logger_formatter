@@ -1,4 +1,3 @@
-# coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'ltsv_logger_formatter/version'
@@ -9,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ['ryu39']
   spec.email         = ['dev.ryu39@gmail.com']
 
-  spec.summary       = %q{A simple logger formatter for logging in ltsv format.}
-  spec.description   = %q{A simple logger formatter for logging in ltsv format.}
+  spec.summary       = 'A simple logger formatter for logging in ltsv format.'
+  spec.description   = 'A simple logger formatter for logging in ltsv format.'
   spec.homepage      = 'https://github.com/ryu39/ltsv_logger_formatter'
   spec.license       = 'MIT'
 
@@ -26,5 +25,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'bundler', '~> 1.13'
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'rspec', '~> 3.0'
+  spec.add_development_dependency 'rubocop'
   spec.add_development_dependency 'actionpack'
 end

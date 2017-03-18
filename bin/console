@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
-require "bundler/setup"
-require "ltsv_logger_formatter"
+require 'bundler/setup'
+require 'ltsv_logger_formatter'
 
-require "irb"
+require 'irb'
 IRB.start
