@@ -111,7 +111,7 @@ describe LtsvLoggerFormatter do
         end
 
         it 'returns log message in ltsv format which contains message, class and backtrace' do
-          should eq "level:INFO\ttime:2000-01-01T12:34:56.000000\tmessage:error\tclass:RuntimeError\tbacktrace:#{data.backtrace.join("\\n")}\n"
+          should eq "level:INFO\ttime:2000-01-01T12:34:56.000000\tmessage:error\tclass:RuntimeError\tbacktrace:#{data.backtrace.join('\n')}\n"
         end
       end
 
