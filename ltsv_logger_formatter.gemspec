@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ['ryu39']
   spec.email         = ['dev.ryu39@gmail.com']
 
-  spec.summary       = %q{A simple logger formatter for logging in ltsv format.}
-  spec.description   = %q{A simple logger formatter for logging in ltsv format.}
+  spec.summary       = 'A simple logger formatter for logging in ltsv format.'
+  spec.description   = 'A simple logger formatter for logging in ltsv format.'
   spec.homepage      = 'https://github.com/ryu39/ltsv_logger_formatter'
   spec.license       = 'MIT'
 
