@@ -77,7 +77,7 @@ describe LtsvLoggerFormatter do
     describe 'data type except for Hash' do
       shared_examples_for 'default behaviour' do
         it 'returns log message in ltsv format which contains data#to_s as message' do
-          should eq "level:INFO\ttime:2000-01-01T12:34:56.000000\tmessage:#{data.to_s}\n"
+          should eq "level:INFO\ttime:2000-01-01T12:34:56.000000\tmessage:#{data}\n"
         end
       end
 
