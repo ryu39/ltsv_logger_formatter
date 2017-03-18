@@ -104,7 +104,7 @@ describe LtsvLoggerFormatter do
       context 'when data is Exception' do
         let(:data) do
           begin
-            raise RuntimeError.new('error')
+            raise 'error'
           rescue => e
             e
           end
