@@ -55,7 +55,9 @@ class LtsvLoggerFormatter < ::Logger::Formatter
   private
 
   def format_data(data)
-    return { message: data.message, class: data.class, backtrace: Array(data.backtrace).join('\n') } if data.is_a? Exception
+    if data.is_a? Exception
+      return { message: data.message, class: data.class, backtrace: Array(data.backtrace).join('\n') }
+    end
     return { message: data.to_s } unless data.respond_to?(:to_hash)
 
     @filter ? @filter.filter(data.to_hash) : data.to_hash

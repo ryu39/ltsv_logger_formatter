@@ -18,7 +18,8 @@ describe LtsvLoggerFormatter do
     subject { formatter.call('INFO', time, progname, data) }
 
     it 'returns log message in ltsv format' do
-      should eq "level:INFO\ttime:2000-01-01T12:34:56.000000\tkey1:str\tkey2:1\tkey3:true\tkey4:[1, 2]\tkey5:{:key=>\"val\"}\n"
+      should eq "level:INFO\ttime:2000-01-01T12:34:56.000000\tkey1:str\tkey2:1\tkey3:true\t" \
+                  "key4:[1, 2]\tkey5:{:key=>\"val\"}\n"
     end
 
     context 'when datetime_format is specified' do
@@ -26,7 +27,8 @@ describe LtsvLoggerFormatter do
       let(:formatter) { LtsvLoggerFormatter.new(datetime_format: datetime_format) }
 
       it 'returns log message in ltsv format with specified datetime format' do
-        should eq "level:INFO\ttime:2000-01-01 12:34:56\tkey1:str\tkey2:1\tkey3:true\tkey4:[1, 2]\tkey5:{:key=>\"val\"}\n"
+        should eq "level:INFO\ttime:2000-01-01 12:34:56\tkey1:str\tkey2:1\tkey3:true\t" \
+                    "key4:[1, 2]\tkey5:{:key=>\"val\"}\n"
       end
     end
 
@@ -34,7 +36,8 @@ describe LtsvLoggerFormatter do
       let(:formatter) { LtsvLoggerFormatter.new(severity_key: :test) }
 
       it 'returns log message in ltsv format with specified severity key' do
-        should eq "test:INFO\ttime:2000-01-01T12:34:56.000000\tkey1:str\tkey2:1\tkey3:true\tkey4:[1, 2]\tkey5:{:key=>\"val\"}\n"
+        should eq "test:INFO\ttime:2000-01-01T12:34:56.000000\tkey1:str\tkey2:1\tkey3:true\t" \
+                    "key4:[1, 2]\tkey5:{:key=>\"val\"}\n"
       end
     end
 
@@ -42,7 +45,8 @@ describe LtsvLoggerFormatter do
       let(:formatter) { LtsvLoggerFormatter.new(time_key: :test) }
 
       it 'returns log message in ltsv format with specified time key' do
-        should eq "level:INFO\ttest:2000-01-01T12:34:56.000000\tkey1:str\tkey2:1\tkey3:true\tkey4:[1, 2]\tkey5:{:key=>\"val\"}\n"
+        should eq "level:INFO\ttest:2000-01-01T12:34:56.000000\tkey1:str\tkey2:1\tkey3:true\t" \
+                    "key4:[1, 2]\tkey5:{:key=>\"val\"}\n"
       end
     end
 
@@ -50,14 +54,16 @@ describe LtsvLoggerFormatter do
       let(:progname) { 'progname' }
 
       it 'returns log message in ltsv format with progname in ltsv format' do
-        should eq "level:INFO\ttime:2000-01-01T12:34:56.000000\tprogname:progname\tkey1:str\tkey2:1\tkey3:true\tkey4:[1, 2]\tkey5:{:key=>\"val\"}\n"
+        should eq "level:INFO\ttime:2000-01-01T12:34:56.000000\tprogname:progname\tkey1:str\tkey2:1\tkey3:true\t" \
+                    "key4:[1, 2]\tkey5:{:key=>\"val\"}\n"
       end
 
       context 'when progname_key is specified' do
         let(:formatter) { LtsvLoggerFormatter.new(progname_key: :test) }
 
         it 'returns log message in ltsv format with specified progname key' do
-          should eq "level:INFO\ttime:2000-01-01T12:34:56.000000\ttest:progname\tkey1:str\tkey2:1\tkey3:true\tkey4:[1, 2]\tkey5:{:key=>\"val\"}\n"
+          should eq "level:INFO\ttime:2000-01-01T12:34:56.000000\ttest:progname\tkey1:str\tkey2:1\tkey3:true\t" \
+                      "key4:[1, 2]\tkey5:{:key=>\"val\"}\n"
         end
       end
     end
@@ -111,7 +117,8 @@ describe LtsvLoggerFormatter do
         end
 
         it 'returns log message in ltsv format which contains message, class and backtrace' do
-          should eq "level:INFO\ttime:2000-01-01T12:34:56.000000\tmessage:error\tclass:RuntimeError\tbacktrace:#{data.backtrace.join('\n')}\n"
+          should eq "level:INFO\ttime:2000-01-01T12:34:56.000000\tmessage:error\tclass:RuntimeError\t" \
+                      "backtrace:#{data.backtrace.join('\n')}\n"
         end
       end
 
