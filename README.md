@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/ryu39/ltsv_logger_formatter.svg?branch=master)](https://travis-ci.org/ryu39/ltsv_logger_formatter)
 [![Code Climate](https://codeclimate.com/github/ryu39/ltsv_logger_formatter/badges/gpa.svg)](https://codeclimate.com/github/ryu39/ltsv_logger_formatter)
+[![Test Coverage](https://codeclimate.com/github/ryu39/ltsv_logger_formatter/badges/coverage.svg)](https://codeclimate.com/github/ryu39/ltsv_logger_formatter/coverage)
 [![Issue Count](https://codeclimate.com/github/ryu39/ltsv_logger_formatter/badges/issue_count.svg)](https://codeclimate.com/github/ryu39/ltsv_logger_formatter)
 
 A simple ruby logger formatter for logging in [LTSV](http://ltsv.org/) format.
