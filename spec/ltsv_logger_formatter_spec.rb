@@ -117,7 +117,7 @@ describe LtsvLoggerFormatter do
 
       context 'when data is Object witch can respond to #to_hash' do
         let(:data) { double('object') }
-        before { expect(data).to receive(:to_hash).and_return({ key: 'val' }) }
+        before { expect(data).to receive(:to_hash).and_return(key: 'val') }
 
         it 'returns log message in ltsv format which contains Object#to_hash result' do
           should eq "level:INFO\ttime:2000-01-01T12:34:56.000000\tkey:val\n"
