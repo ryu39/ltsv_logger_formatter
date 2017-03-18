@@ -3,6 +3,13 @@ require 'logger'
 require 'ltsv'
 require 'ltsv_logger_formatter/version'
 
+# A logger formatter for logging in ltsv format.
+#
+# This is a sub class of ::Logger::Formatter.
+# So you can use ::Logger's formatter as follows.
+#   logger = ::Logger.new(STDOUT)
+#   logger.formatter = ::LtsvLoggerFormatter.new
+#   logger.info(key: 'value') # => level:INFO time:2017-03-19T01:47:50.280705 key:value
 class LtsvLoggerFormatter < ::Logger::Formatter
   attr_accessor :severity_key, :time_key, :progname_key
 
