@@ -1,5 +1,9 @@
 # Change logs
 
+## [WIP]v0.2.3
+
+* Remove unnecessary files from gem. (#11)
+
 ## v0.2.2
 
 * Add rubocop and fix offences.
