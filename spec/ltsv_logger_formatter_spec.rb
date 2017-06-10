@@ -9,6 +9,8 @@ describe LtsvLoggerFormatter do
   end
 
   describe '#call' do
+    subject { formatter.call('INFO', time, progname, data) }
+
     let(:time) { Time.new(2000, 1, 1, 12, 34, 56) }
     let(:progname) { nil }
     let(:data) do
@@ -16,7 +18,6 @@ describe LtsvLoggerFormatter do
     end
 
     let(:formatter) { LtsvLoggerFormatter.new }
-    subject { formatter.call('INFO', time, progname, data) }
 
     it 'returns log message in ltsv format' do
       should eq "level:INFO\ttime:2000-01-01T12:34:56.000000\tkey1:str\tkey2:1\tkey3:true\t" \
@@ -55,16 +56,16 @@ describe LtsvLoggerFormatter do
       let(:progname) { 'progname' }
 
       it 'returns log message in ltsv format with progname in ltsv format' do
-        should eq "level:INFO\ttime:2000-01-01T12:34:56.000000\tprogname:progname\tkey1:str\tkey2:1\tkey3:true\t" \
-                    "key4:[1, 2]\tkey5:{:key=>\"val\"}\n"
+        should eq "level:INFO\ttime:2000-01-01T12:34:56.000000\tprogname:progname\tkey1:str\t" \
+                  "key2:1\tkey3:true\tkey4:[1, 2]\tkey5:{:key=>\"val\"}\n"
       end
 
       context 'when progname_key is specified' do
         let(:formatter) { LtsvLoggerFormatter.new(progname_key: :test) }
 
         it 'returns log message in ltsv format with specified progname key' do
-          should eq "level:INFO\ttime:2000-01-01T12:34:56.000000\ttest:progname\tkey1:str\tkey2:1\tkey3:true\t" \
-                      "key4:[1, 2]\tkey5:{:key=>\"val\"}\n"
+          should eq "level:INFO\ttime:2000-01-01T12:34:56.000000\ttest:progname\tkey1:str\t" \
+                    "key2:1\tkey3:true\tkey4:[1, 2]\tkey5:{:key=>\"val\"}\n"
         end
       end
     end
@@ -90,21 +91,25 @@ describe LtsvLoggerFormatter do
 
       context 'when data is String' do
         let(:data) { 'string' }
+
         it_behaves_like 'default behaviour'
       end
 
       context 'when data is Integer' do
         let(:data) { 100 }
+
         it_behaves_like 'default behaviour'
       end
 
       context 'when data is boolean' do
         let(:data) { true }
+
         it_behaves_like 'default behaviour'
       end
 
       context 'when data is nil' do
         let(:data) { nil }
+
         it_behaves_like 'default behaviour'
       end
 
@@ -118,14 +123,19 @@ describe LtsvLoggerFormatter do
         end
 
         it 'returns log message in ltsv format which contains message, class and backtrace' do
-          should eq "level:INFO\ttime:2000-01-01T12:34:56.000000\tmessage:error\tclass:RuntimeError\t" \
-                      "backtrace:#{data.backtrace.join('\n')}\n"
+          should eq "level:INFO\ttime:2000-01-01T12:34:56.000000\tmessage:error\t" \
+                    "class:RuntimeError\tbacktrace:#{data.backtrace.join('\n')}\n"
         end
       end
 
       context 'when data is Object witch can respond to #to_hash' do
-        let(:data) { double('object') }
-        before { expect(data).to receive(:to_hash).and_return(key: 'val') }
+        let(:data) { Object.new }
+
+        before do
+          def data.to_hash
+            { key: 'val' }
+          end
+        end
 
         it 'returns log message in ltsv format which contains Object#to_hash result' do
           should eq "level:INFO\ttime:2000-01-01T12:34:56.000000\tkey:val\n"
