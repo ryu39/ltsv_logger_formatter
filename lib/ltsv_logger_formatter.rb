@@ -16,11 +16,13 @@ class LtsvLoggerFormatter < ::Logger::Formatter
 
   # Initialize formatter.
   #
-  # @param [String] datetime_format Optional, datetime format string. Default is '%Y-%m-%dT%H:%M:%S.%6N'.
+  # @param [String] datetime_format Optional, datetime format string.
+  #   Default is '%Y-%m-%dT%H:%M:%S.%6N'.
   # @param [Symbol] severity_key Optional, key for severity. Default is :level.
   # @param [Symbol] time_key Optional, key for time. Default is :time.
   # @param [Symbol] progname_key Optional, key for progname. Default is :progname.
-  # @param [Object] filter Optional, object which responds to #filter, e.g. ActionDispatch::Http::ParameterFilter.
+  # @param [Object] filter Optional, object which responds to #filter,
+  #   e.g. ActionDispatch::Http::ParameterFilter.
   #   This object used to filter parameter in hash such as 'password'.
   def initialize(datetime_format: '%Y-%m-%dT%H:%M:%S.%6N',
                  severity_key: :level, time_key: :time, progname_key: :progname, filter: nil)
@@ -57,7 +59,8 @@ class LtsvLoggerFormatter < ::Logger::Formatter
 
   def format_data(data)
     if data.is_a? Exception
-      return { message: data.message, class: data.class, backtrace: Array(data.backtrace).join('\n') }
+      return { message: data.message, class: data.class,
+               backtrace: Array(data.backtrace).join('\n') }
     end
     return { message: data.to_s } unless data.respond_to?(:to_hash)
 
